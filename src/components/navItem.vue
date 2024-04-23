@@ -4,13 +4,17 @@
     :index="basePath"
     v-if="!item.child || item.child.length <= 0"
   >
-    <el-icon> </el-icon>
+    <el-icon>
+      <component :is="item.icon"></component>
+    </el-icon>
     <span>{{ item.text }}</span>
   </el-menu-item>
 
   <el-sub-menu class="menu" :index="basePath" v-else>
     <template #title>
-      <el-icon> </el-icon>
+      <el-icon>
+        <component :is="item.icon"></component>
+      </el-icon>
       <span>{{ item.text }}</span>
     </template>
     <NavItem
@@ -23,6 +27,7 @@
 </template>
 <script setup>
 import { ref, reactive } from 'vue'
+import { House, Search } from '@element-plus/icons-vue'
 const { item, basePath } = defineProps({
   item: {
     type: Object

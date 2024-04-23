@@ -17,7 +17,16 @@
               padding-left: 10px;
             "
           >
-            <el-image id="myImage" :src="zhaoxiImage"></el-image>
+            <div
+              style="
+                width: 80%;
+                padding-bottom: 30px;
+                height: 80%;
+                padding-left: 10px;
+              "
+            >
+              <el-image id="myImage" :src="zhaoxiImage"></el-image>
+            </div>
           </div>
         </el-menu-item>
         <NavItem
@@ -35,6 +44,8 @@
 import { reactive } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import NavItem from './navItem.vue'
+import zhaoxiImage from '../assets/images/朝夕智慧工厂.png'
+
 const route = useRoute()
 const items = reactive([
   {
@@ -45,12 +56,12 @@ const items = reactive([
   {
     text: '考勤统计',
     url: '',
-    icon: 'userFiled',
+    icon: 'Compass',
     child: [
       {
         text: '个人考勤',
         url: '/user/info',
-        icon: 'Avater'
+        icon: 'StarFilled'
       },
       {
         text: '考勤分析',
@@ -62,7 +73,7 @@ const items = reactive([
   {
     text: '统计分析',
     url: '/user/info',
-    icon: 'userFiled'
+    icon: 'Notification'
   }
 ])
 </script>
