@@ -29,12 +29,8 @@
             </div>
           </div>
         </el-menu-item>
-        <NavItem
-          v-for="v in items"
-          :key="v.url"
-          :item="v"
-          :basePath="v.url"
-        ></NavItem>
+        <NavItem v-for="v in items" :key="v.url" :item="v" :basePath="v.url">
+        </NavItem>
       </el-menu>
     </el-scrollbar>
   </el-aside>
@@ -50,8 +46,13 @@ const route = useRoute()
 const items = reactive([
   {
     text: '首页',
-    url: './index',
-    icon: 'House'
+    url: './Index',
+    icon: 'Index'
+  },
+  {
+    text: '用户管理',
+    url: './user',
+    icon: 'user'
   },
   {
     text: '考勤统计',
@@ -74,6 +75,18 @@ const items = reactive([
     text: '统计分析',
     url: '/user/info',
     icon: 'Notification'
+  },
+  {
+    text: '系统管理',
+    url: './system',
+    icon: 'Menu',
+    child: [
+      {
+        text: '系统日志',
+        url: '/system/log',
+        icon: 'Tools'
+      }
+    ]
   }
 ])
 </script>

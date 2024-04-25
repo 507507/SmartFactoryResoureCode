@@ -7,15 +7,34 @@ const router = createRouter({
     {
       path: '/',
       name: 'Index',
-      component: Index
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      component: Index,
+      children: [
+        {
+          path: '/system',
+          name: 'system',
+          meta: { title: '系统管理' },
+          children: [
+            {
+              path: '/system/log',
+              name: 'log',
+              meta: { title: '系统日志' },
+              component: () => import('../views/system/log.vue')
+            }
+          ]
+        },
+        {
+          path: '/user',
+          name: 'user',
+          meta: { title: '用户管理' },
+          component: () => import('../views/users/index.vue')
+        },
+        {
+          path: '/about',
+          name: 'about',
+          meta: { title: 'about页面' },
+          component: () => import('../views/AboutView.vue')
+        }
+      ]
     }
   ]
 })
