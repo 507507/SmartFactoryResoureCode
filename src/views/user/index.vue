@@ -3,46 +3,32 @@
     <el-row>
       <el-form label-width="120px" style="max-width: 600px">
         <el-form-item label="时间范围">
-          <el-date-picker
-            arrow-control
-            v-model="searchQuery.searchDateTime"
-            type="datetimerange"
-            start-placeholder="开始时间"
-            end-placeholder="结束时间"
-            placeholder="请输入时间范围" /></el-form-item
+          <el-input
+            v-model="searchQuery.serachString"
+            label="关键字"
+            placeholder="姓名，身份证号码" /></el-form-item
       ></el-form>
-      <el-button type="primary" @click="logQuery()">查询</el-button>
+      <el-button type="primary" @click="FnQuery()">查询</el-button>
     </el-row>
     <el-row>
       <el-table :data="tableData" stripe style="width: 100%">
-        <el-table-column prop="id" label="主键ID" width="180" />
-        <el-table-column prop="logger" label="日志发生地址" />
-        <el-table-column prop="message" label="日志信息">
-          <template #default="scope">
-            <div style="display: flex; align-items: center">
-              <el-popover
-                :width="300"
-                popper-style="box-shadow: rgb(14 18 22 / 35%) 0px 10px 38px -10px, rgb(14 18 22 / 20%) 0px 10px 20px -15px; padding: 20px;"
-              >
-                <template #reference>
-                  {{ scope.row.message.substring(0, 20) }}
-                </template>
-                <template #default>
-                  <div
-                    class="demo-rich-conent"
-                    style="display: flex; gap: 16px; flex-direction: column"
-                  >
-                    <div>
-                      {{ scope.row.message }}
-                    </div>
-                  </div>
-                </template>
-              </el-popover>
-            </div>
-          </template>
+        <el-table-column prop="id" label="员工ID" width="100" />
+        <el-table-column prop="userName" label="姓名" width="100">
         </el-table-column>
+        <el-table-column prop="age" label="年龄" width="80"> </el-table-column>
+        <el-table-column prop="sexTypeDescription" label="性别" width="100">
+        </el-table-column>
+        <el-table-column prop="currentAddress" label="当前所在地" width="150">
+        </el-table-column>
+        <el-table-column prop="homeAddress" label="户籍所在地" width="150" />
 
-        <el-table-column prop="exception" label="异常消息">
+        <el-table-column prop="idNumber" label="身份证号"> </el-table-column>
+        <el-table-column
+          prop="stringEntryTime"
+          label="入职时间"
+        ></el-table-column>
+        <el-table-column prop="passWord" label="密码"> </el-table-column>
+        <el-table-column prop="jobStatusDescription" label="在职描述">
           <template #default="scope">
             <div style="display: flex; align-items: center">
               <el-popover
@@ -51,7 +37,7 @@
               >
                 <template #reference>
                   <!-- {{ scope.row.exception }} -->
-                  {{ scope.row.exception.substring(0, 20) }}
+                  {{ scope.row.jobStatusDescription }}
                 </template>
                 <template #default>
                   <div
@@ -59,7 +45,7 @@
                     style="display: flex; gap: 16px; flex-direction: column"
                   >
                     <div>
-                      {{ scope.row.exception }}
+                      {{ scope.row.JobStatusDescription }}
                     </div>
                   </div>
                 </template>
@@ -67,8 +53,8 @@
             </div>
           </template>
         </el-table-column>
-        <el-table-column prop="stringDateTime" label="时间" /> </el-table
-    ></el-row>
+      </el-table>
+    </el-row>
   </el-card>
 
   <div class="pagination">
@@ -100,46 +86,38 @@ const searchQuery = ref({
   currentPage: 1,
   pageSize: 10,
   total: 0,
-  searchDateTime: []
+  serachString: ''
 })
 
 //请求webapi
 
 onMounted(async () => {
-  logQuery()
+  FnQuery()
 })
 //当pagesize的值发生改变时
 const handleSizeChange = (number) => {
-  logQuery()
+  FnQuery()
 }
 
 //调用api加载数据
-const logQuery = async () => {
+const FnQuery = async () => {
   //加载请求api
   //发起请求axios
-  var url = `/SystemLog/${searchQuery.value.currentPage}/${searchQuery.value.pageSize}`
-
-  const searchDateQuery = searchQuery.value.searchDateTime
-  console.log(searchDateQuery)
-  if (searchDateQuery.length == 2) {
-    var timestampStart = Date.parse(searchDateQuery[0])
-    var timestampEnd = Date.parse(searchDateQuery[1])
-    url = `/SystemLog/${searchQuery.value.currentPage}/${
-      searchQuery.value.pageSize
-    }/${timestampStart / 1000}
-    /${timestampEnd / 1000}`
+  var url = `/User/${searchQuery.value.currentPage}/${searchQuery.value.pageSize}`
+  if (searchQuery.value.serachString != '') {
+    url = `/User/${searchQuery.value.currentPage}/${searchQuery.value.pageSize}/${searchQuery.value.serachString}`
   }
 
   let response = await service.get(url)
   let result = response.data
-  console.log(result.dataList)
-  tableData.value = result.dataList
-  searchQuery.value.total = result.recordCount
+  console.log(result)
+  tableData.value = result.data.dataList
+  searchQuery.value.total = result.data.recordCount
 }
 
 //点击选中某一页的时候会触发
 const handleCurrentChange = (number) => {
-  logQuery()
+  FnQuery()
 }
 </script>
 <style>

@@ -46,13 +46,20 @@ const route = useRoute()
 const items = reactive([
   {
     text: '首页',
-    url: './Index',
-    icon: 'Index'
+    url: '/home/index',
+    icon: 'HomeFilled'
   },
   {
-    text: '用户管理',
+    text: '员工同事',
     url: './user',
-    icon: 'user'
+    icon: 'user',
+    child: [
+      {
+        text: '员工管理',
+        url: '/user/index',
+        icon: 'Tools'
+      }
+    ]
   },
   {
     text: '考勤统计',
